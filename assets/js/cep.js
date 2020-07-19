@@ -1,4 +1,6 @@
 $( document ).ready(function() {
+    //Instancia a máscara do CEP
+    $('#cep').mask('00000-000');
 
     function clearCepData() {
         // Limpa valores da seção de dados do cep.
@@ -6,7 +8,7 @@ $( document ).ready(function() {
         $("#bairro").val("");
         $("#cidade").val("");
         $("#estado").val("");
-        $("#cep_numero").val("");
+        $("#cep").val("");
     }    
 
     function getData(){
@@ -27,7 +29,7 @@ $( document ).ready(function() {
                 $("#bairro").val("Carregando");
                 $("#cidade").val("Carregando");
                 $("#estado").val("Carregando");
-                $("#cep_numero").val("Carregando");
+                $("#cep").val("Carregando");
 
                 //Consulta o webservice viacep.com.br/
                 $.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
@@ -38,7 +40,7 @@ $( document ).ready(function() {
                         $("#bairro").val(dados.bairro);
                         $("#cidade").val(dados.localidade);
                         $("#estado").val(dados.uf);
-                        $("#cep_numero").val(dados.cep);
+                        $("#cep").val(dados.cep);
 
                         
                     } //end if.
