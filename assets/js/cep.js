@@ -1,6 +1,22 @@
 $( document ).ready(function() {
-    //Instancia a máscara do CEP
-    $('#cep').mask('00000-000');
+
+    //Instancia a tooltip
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    //Esconde a tooltip do CEP depois de X segundos
+    $(document).on('show.bs.tooltip', function (e) {
+        setTimeout(function() {  
+         $('#cep').tooltip('hide');
+      }, 3000);
+    });
+
+    //Opções do tooltip
+    $('#cep').tooltip({
+        trigger: 'manual',
+        title: 'CEP não encontrado.'
+    });
 
     function clearCepData() {
         // Limpa valores da seção de dados do cep.
@@ -9,7 +25,10 @@ $( document ).ready(function() {
         $("#cidade").val("");
         $("#estado").val("");
         $("#cep").val("");
-    }    
+    }  
+
+    //Instancia a máscara do CEP
+    $('#cep').mask('00000-000'); 
 
     function getData(){
         //Nova variável "cep" somente com dígitos.
@@ -45,19 +64,12 @@ $( document ).ready(function() {
                         
                     } //end if.
                     else {
-                        //CEP pesquisado não foi encontrado.
-                        clearCepData();                                      
+                        //CEP pesquisado não foi encontrado.           
+                        clearCepData();             
+                        $('#cep').tooltip('show');                        
                     }
                 });
-            } //end if.
-            else {
-                //cep é inválido.
-                clearCepData();                
             }
-        } //end if.
-        else {
-            //cep sem valor, limpa dados.
-            clearCepData();                        
         }
     }
     
