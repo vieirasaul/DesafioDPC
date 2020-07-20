@@ -78,9 +78,41 @@ $( document ).ready(function() {
         getData();
     });
 
-    //Chama a função de pegar dados do endereço ao clicar no botão de busca.
-    $('#buscar').click(function(){
-        getData();
+
+    //Função para pegar os dados de CEP e bairro, com base em logradouro, cidade e estado.
+    function get(url) {
+
+        $.get(url, function(dados) {
+
+            if (!("erro" in dados)) {
+
+            //Ao digitar rua, cidade e estado, a API do ViaCEP retorna vários arrays, o if abaixo chama o primeiro resultado caso existam múltiplos arrays
+            if (Object.prototype.toString.call(dados) === '[object Array]') {
+                var dados = dados[0];
+            }
+
+            $.each(dados, function(nome, info) {
+                $('#' + nome).val(nome === 'cep' ? info.replace(/\D/g, '') : info).attr('info', nome === 'cep' ? info.replace(/\D/g, '') : info);
+            });            
+
+            } else {
+                $('#cep').tooltip('show');   
+            }
+
+        });
+    }
+
+    //Ao digitar rua, cidade e estado, e tirar o foco de um desses campos, retorna as informações de CEP e Bairro
+    $('#logradouro, #cidade, #estado').on('blur', function(e) {
+
+        if ($('#logradouro').val() !== '' && $('#logradouro').val() !== $('#logradouro').attr('info') && $('#cidade').val() !== '' && $('#cidade').val() !== $('#cidade').attr('info') && $('#estado').val() !== '' && $('#estado').val() !== $('#estado').attr('info')) {
+
+            $("#bairro").val("Carregando");            
+            $("#cep").val("Carregando");
+
+        get('https://viacep.com.br/ws/' + $('#estado').val() + '/' + $('#cidade').val() + '/' + $('#logradouro').val() + '/json/');
+        }
+
     });
 
     
