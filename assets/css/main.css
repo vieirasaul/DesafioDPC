@@ -2,6 +2,10 @@ body {
     margin-bottom: 60px;
 }
 
+#estado {
+    text-transform: uppercase;
+}
+
 footer {
     position: absolute;
     bottom: 0;

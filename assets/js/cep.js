@@ -27,8 +27,11 @@ $( document ).ready(function() {
         $("#cep").val("");
     }  
 
-    //Instancia a máscara do CEP
+    //Instancia as máscaras dos campos
     $('#cep').mask('00000-000'); 
+    $('#estado').mask('AA');
+
+    
 
     function getData(){
         //Nova variável "cep" somente com dígitos.
